@@ -92,7 +92,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Ihor Chyshkala** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Ihor Chyshkala** - *Initial work* - [iMateo](https://github.com/iMateo)
 
 Greatly looking for contributors
 
