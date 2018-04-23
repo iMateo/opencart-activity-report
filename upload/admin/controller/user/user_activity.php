@@ -91,12 +91,10 @@ class ControllerUserUserActivity extends Controller {
 
 			$find = array(
 				'user_id=',
-				'order_id='
 			);
 
 			$replace = array(
 				$this->url->link('user/user/edit', 'token=' . $this->session->data['token'] . '&user_id=', true),
-				$this->url->link('sale/order/info', 'token=' . $this->session->data['token'] . '&order_id=', true)
 			);
 
 			$data['activities'][] = array(
@@ -170,8 +168,8 @@ class ControllerUserUserActivity extends Controller {
 		$this->load->model('user/user_activity');
 
 		$activity_data = array(
-					'user_id' => '1',
-					'name'  =>   'Ihor'
+					'user_id' => $this->user->getId(),
+					'name'  =>   $this->user->getUserName()
 				);
 
 		$this->model_user_user_activity->addActivity('edit_category', $activity_data);
@@ -182,8 +180,8 @@ class ControllerUserUserActivity extends Controller {
 		$this->load->model('user/user_activity');
 
 		$activity_data = array(
-					'user_id' => '1',
-					'name'  =>   'Ihor'
+					'user_id' => $this->user->getId(),
+					'name'  =>   $this->user->getUserName()
 				);
 
 		$this->model_user_user_activity->addActivity('update_category', $activity_data);
@@ -194,8 +192,8 @@ class ControllerUserUserActivity extends Controller {
 		$this->load->model('user/user_activity');
 
 		$activity_data = array(
-					'user_id' => '1',
-					'name'  =>   'Ihor'
+					'user_id' => $this->user->getId(),
+					'name'  =>   $this->user->getUserName()
 				);
 
 		$this->model_user_user_activity->addActivity('update_product', $activity_data);
@@ -206,8 +204,8 @@ class ControllerUserUserActivity extends Controller {
 		$this->load->model('user/user_activity');
 
 		$activity_data = array(
-					'user_id' => '1',
-					'name'  =>   'Ihor'
+					'user_id' => $this->user->getId(),
+					'name'  =>   $this->user->getUserName()
 				);
 
 		$this->model_user_user_activity->addActivity('edit_setting', $activity_data);

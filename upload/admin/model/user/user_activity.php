@@ -145,6 +145,8 @@ public function getUserActivities($data = array()) {
   				`date_added` datetime NOT NULL,
 				PRIMARY KEY (`user_activity_id`)
 		) DEFAULT COLLATE=utf8_general_ci;");
+
+		$this->response->redirect($this->url->link('user/user_activity', '', true));
 	}
 
 	public function uninstall() {
@@ -154,6 +156,8 @@ public function getUserActivities($data = array()) {
 
 		$this->model_extension_event->deleteEvent('user_activity', 'admin/controller/common/login/index/after', 'admin/controller/user/user_activity/addActivity');
 		
-		$this->model_extension_event->deleteEvent('user_activity', 'admin/model/catalog/product/editProduct/after', 'admin/controller/user/user_activity/addActivity');		
+		$this->model_extension_event->deleteEvent('user_activity', 'admin/model/catalog/product/editProduct/after', 'admin/controller/user/user_activity/addActivity');
+
+		$this->response->redirect($this->url->link('user/user_activity', '', true));		
 	}
 }
