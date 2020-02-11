@@ -1,35 +1,37 @@
 <?php
 // Heading
-$_['heading_title']       = 'Активность пользователей';
+$_['heading_title']        = 'Активность пользователей';
 
 // Text
-$_['text_list']           = 'Список активности пользователей';
+$_['text_list']            = 'Список активности пользователей';
+$_['text_user_activity']   = $_['heading_title'];
 
 // Account manage
-$_['text_edit']           = '<a href="user_id=%d">%s</a> обновил свои данные';
-$_['text_forgotten']      = '<a href="user_id=%d">%s</a> запросил новый пароль через ссылку в почте.';
-$_['text_reset']          = '<a href="user_id=%d">%s</a> сменил пароль на новый по ссылке с почты.';
-$_['text_login']          = '<a href="user_id=%d">%s</a> авторизовался.';
-$_['text_password']       = '<a href="user_id=%d">%s</a> обновил пароль от учетной записи.';
-$_['text_register']       = '<a href="user_id=%d">%s</a> был создан из панели администратора';
+$_['text_create_user']     = '<a href="user_id=%d">%s</a> создал нового <a href="user_id=%d"> пользователя</a>.';
+$_['text_edit_user']       = '<a href="user_id=%d">%s</a> обновил данные <a href="user_id=%d"> пользователя</a>.';
+$_['text_delete_user']     = '<a href="user_id=%d">%s</a> удалил <a href="user_id=%d"> пользователя</a>.';
+$_['text_forgotten_user']  = '<a href="user_id=%d">%s</a> запросил новый пароль.';
+$_['text_reset_user']      = '<a href="user_id=%d">%s</a> сменил пароль.';
 
 // Update catalog
-$_['text_create_category']    = '%s создал <a href="categoty_id=%d">новую категорию</a>.';
-$_['text_create_product']    = '%s создал <a href="categoty_id=%d">новый товар</a>.';
-$_['text_update_product']    = '%s обновил <a href="categoty_id=%d">новый товар</a>.';
-$_['text_update_category']    = '%s обновил <a href="categoty_id=%d">новый товар</a>.';
-$_['text_delete_category']    = '%s удалил <a href="categoty_id=%d">новую категорию</a>.';
-$_['text_delete_product']    = '%s удалил <a href="categoty_id=%d">новую категорию</a>.';
-$_['text_edit_setting']     = '%s обновил <a href="categoty_id=%d">настройки магазина</a>.';
+$_['text_create_product']  = '<a href="user_id=%d">%s</a> создал <a href="product_id=%s"> новый товар</a>.';
+$_['text_create_category'] = '<a href="user_id=%d">%s</a> создал <a href="category_id=%s"> новую категорию</a>.';
+$_['text_create_store']    = '<a href="user_id=%d">%s</a> создал <a href="store_id=%s"> новый магазин</a>.';
+$_['text_update_product']  = '<a href="user_id=%d">%s</a> обновил <a href="product_id=%s"> товар</a>.';
+$_['text_update_category'] = '<a href="user_id=%d">%s</a> обновил <a href="category_id=%s"> категорию</a>.';
+$_['text_update_store']    = '<a href="user_id=%d">%s</a> обновил <a href="store_id=%s"> настройки магазина</a>.';
+$_['text_delete_product']  = '<a href="user_id=%d">%s</a> удалил <a href="product_id=%s"> товар</a>.';
+$_['text_delete_category'] = '<a href="user_id=%d">%s</a> удалил <a href="category_id=%s"> категорию</a>.';
+$_['text_delete_store']    = '<a href="user_id=%d">%s</a> удалил <a href="store_id=%s"> магазин</a>.';
 
 // Column
-$_['column_user']         = 'Пользователи';
-$_['column_comment']      = 'Комментарий';
-$_['column_ip']           = 'IP адрес';
-$_['column_date_added']   = 'Дата и время действия';
+$_['column_user']          = 'Пользователь';
+$_['column_comment']       = 'Комментарий';
+$_['column_ip']            = 'IP адрес';
+$_['column_date_added']    = 'Дата и время действия';
 
 // Entry
-$_['entry_user'] 	      = 'Пользователи:';
-$_['entry_ip']            = 'IP адрес:';
-$_['entry_date_start']    = 'Дата начала:';
-$_['entry_date_end']      = 'Дата окончания:';
+$_['entry_user'] 	       = 'Пользователь:';
+$_['entry_ip']             = 'IP адрес:';
+$_['entry_date_start']     = 'Дата начала:';
+$_['entry_date_end']       = 'Дата окончания:';

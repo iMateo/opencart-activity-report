@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<name><![CDATA[User Activity]]></name>
+	<code>User_Activity</code>
+	<version>1.0.1</version>
+	<author><![CDATA[iMateo & GixOC.ru]]></author>
+
+	<file path="admin/controller/common/column_left.php">
+		<operation>
+			<search><![CDATA[if ($user) {]]></search>
+				<add position="before"><![CDATA[
+			$this->load->language('user/user_activity');
+
+			if ($this->user->hasPermission('access', 'user/user_activity')) {		
+				$user[] = array(
+					'name'	   => $this->language->get('text_user_activity'),
+					'href'     => $this->url->link('user/user_activity', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);	
+			}
+]]></add>
+		</operation> 
+	</file>
+</modification>

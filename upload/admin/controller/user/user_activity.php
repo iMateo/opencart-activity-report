@@ -1,5 +1,11 @@
 <?php
 class ControllerUserUserActivity extends Controller {
+	public function __construct($registry) {
+		parent::__construct($registry);
+
+		$this->load->model('user/user_activity');
+	}
+
 	public function index() {
 		$this->load->language('user/user_activity');
 
@@ -69,12 +75,10 @@ class ControllerUserUserActivity extends Controller {
 			'text' => $this->language->get('heading_title')
 		);
 
-		$this->load->model('user/user_activity');
-
 		$data['activities'] = array();
 
 		$filter_data = array(
-			'filter_user'   => $filter_user,
+			'filter_user'       => $filter_user,
 			'filter_ip'         => $filter_ip,
 			'filter_date_start'	=> $filter_date_start,
 			'filter_date_end'	=> $filter_date_end,
@@ -87,14 +91,30 @@ class ControllerUserUserActivity extends Controller {
 		$results = $this->model_user_user_activity->getUserActivities($filter_data);
 
 		foreach ($results as $result) {
-			$comment = vsprintf($this->language->get('text_' . $result['key']), json_decode($result['data'], true));
+			$username = '';
+
+			$this->load->model('user/user');
+
+			$user_info = $this->model_user_user->getUser($result['user_id']);
+
+			if ($user_info && $user_info['username']) {
+				$username = $user_info['username'];
+			}
+
+			$comment = sprintf($this->language->get('text_' . $result['key']), $result['user_id'], $username, $result['data']);
 
 			$find = array(
 				'user_id=',
+				'product_id=',
+				'category_id=',
+				'store_id=',
 			);
 
 			$replace = array(
 				$this->url->link('user/user/edit', 'token=' . $this->session->data['token'] . '&user_id=', true),
+				$this->url->link('catalog/product/edit', 'token=' . $this->session->data['token'] . '&product_id=', true),
+				$this->url->link('catalog/category/edit', 'token=' . $this->session->data['token'] . '&category_id=', true),
+				$this->url->link('setting/store/edit', 'token=' . $this->session->data['token'] . '&store_id=', true),
 			);
 
 			$data['activities'][] = array(
@@ -163,70 +183,150 @@ class ControllerUserUserActivity extends Controller {
 		$this->response->setOutput($this->load->view('user/user_activity', $data));
 	}
 
-	public function addActivity() {
-
-		$this->load->model('user/user_activity');
-
-		$activity_data = array(
-					'user_id' => $this->user->getId(),
-					'name'  =>   $this->user->getUserName()
-				);
-
-		$this->model_user_user_activity->addActivity('edit_category', $activity_data);
+	public function addActivityAddUser(&$route, &$args = null, &$output = null) {
+		if (isset($output) && !empty($output)) {
+			$this->model_user_user_activity->addActivity('create_user', $output);
+		}
 	}
 
-	public function addActivityEditCategory() {
-
-		$this->load->model('user/user_activity');
-
-		$activity_data = array(
-					'user_id' => $this->user->getId(),
-					'name'  =>   $this->user->getUserName()
-				);
-
-		$this->model_user_user_activity->addActivity('update_category', $activity_data);
+	public function addActivityEditUser(&$route, &$args = null, &$output = null) {
+		if (isset($args[0]) && !empty($args[0])) {
+			$this->model_user_user_activity->addActivity('edit_user', $args[0]);
+		}
 	}
 
-	public function addActivityEditProduct() {
-
-		$this->load->model('user/user_activity');
-
-		$activity_data = array(
-					'user_id' => $this->user->getId(),
-					'name'  =>   $this->user->getUserName()
-				);
-
-		$this->model_user_user_activity->addActivity('update_product', $activity_data);
+	public function addActivityDeleteUser(&$route, &$args = null, &$output = null) {
+		if (isset($args[0]) && !empty($args[0])) {
+			$this->model_user_user_activity->addActivity('delete_user', $args[0]);
+		}
 	}
 
-	public function addActivityEditSetting() {
+	public function addActivityForgottenUser(&$route, &$args = null, &$output = null) {
+		if (isset($args[0]) && !empty($args[0])) {
+			$this->load->model('user/user');
 
-		$this->load->model('user/user_activity');
+			$user_info = $this->model_user_user->getUserByEmail($args[0]);
 
-		$activity_data = array(
-					'user_id' => $this->user->getId(),
-					'name'  =>   $this->user->getUserName()
-				);
-
-		$this->model_user_user_activity->addActivity('edit_setting', $activity_data);
+			if ($user_info && $user_info['user_id']) {
+				$this->model_user_user_activity->addActivity('forgotten_user', $user_info['user_id']);
+			}
+		}
 	}
 
+	public function addActivityResetUser(&$route, &$args = null, &$output = null) {
+		if (isset($args[0]) && !empty($args[0])) {
+			$this->model_user_user_activity->addActivity('reset_user', $args[0]);
+		}
+	}
 
-	public function install() {
-		
-		$this->load->model('user/user_activity');
+	public function addActivityAddProduct(&$route, &$args = null, &$output = null) {
+		if (isset($output) && !empty($output)) {
+			$this->model_user_user_activity->addActivity('create_product', $output);
+		}
+	}
 
-		return $this->model_user_user_activity->install();
+	public function addActivityAddCategory(&$route, &$args = null, &$output = null) {
+		if (isset($output) && !empty($output)) {
+			$this->model_user_user_activity->addActivity('create_category', $output);
+		}
+	}
 
+	public function addActivityAddStore(&$route, &$args = null, &$output = null) {
+		if (isset($output) && !empty($output)) {
+			$this->model_user_user_activity->addActivity('create_store', $output);
+		}
+	}
+
+	public function addActivityEditProduct(&$route, &$args = null, &$output = null) {
+		if (isset($args[0]) && !empty($args[0])) {
+			$this->model_user_user_activity->addActivity('update_product', $args[0]);
+		}
+	}
+
+	public function addActivityEditCategory(&$route, &$args = null, &$output = null) {
+		if (isset($args[0]) && !empty($args[0])) {
+			$this->model_user_user_activity->addActivity('update_category', $args[0]);
+		}
+	}
+
+	public function addActivityEditStore(&$route, &$args = null, &$output = null) {
+		if (isset($args[0]) && ($args[0] == 'config')) {
+			if (isset($args[2]) && !empty($args[2])) {
+				$store_id = $args[2];
+			} else {
+				$store_id = 0;
+			}
+
+			$this->model_user_user_activity->addActivity('update_store', $store_id);
+		}
+	}
+
+	public function addActivityDeleteProduct(&$route, &$args = null, &$output = null) {
+		if (isset($args[0]) && !empty($args[0])) {
+			$this->model_user_user_activity->addActivity('delete_product', $args[0]);
+		}
+	}
+
+	public function addActivityDeleteCategory(&$route, &$args = null, &$output = null) {
+		if (isset($args[0]) && !empty($args[0])) {
+			$this->model_user_user_activity->addActivity('delete_category', $args[0]);
+		}
+	}
+
+	public function addActivityDeleteStore(&$route, &$args = null, &$output = null) {
+		if (isset($args[0]) && !empty($args[0])) {
+			$this->model_user_user_activity->addActivity('delete_store', $args[0]);
+		}
+	}
+
+	public function autocomplete() {
+		$json = array();
+
+		if (isset($this->request->get['filter_name'])) {
+			if (isset($this->request->get['filter_name'])) {
+				$filter_name = $this->request->get['filter_name'];
+			} else {
+				$filter_name = '';
+			}
+
+			$filter_data = array(
+				'filter_name'  => $filter_name,
+				'start'        => 0,
+				'limit'        => 5
+			);
+
+			$results = $this->model_user_user_activity->getUsers($filter_data);
+
+			foreach ($results as $result) {
+				$json[] = array(
+					'user_id'       => $result['user_id'],
+					'user_group_id' => $result['user_group_id'],
+					'username'      => $result['username'],
+					'name'          => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+					'firstname'     => $result['firstname'],
+					'lastname'      => $result['lastname'],
+					'email'         => $result['email'],
+					'image'         => $result['image'],
+					'ip'            => $result['ip'],
+					'status'        => $result['status'],
+					'date_added'    => date($this->language->get('date_format_short'), strtotime($result['date_added']))
+				);
+			}
+		}
+
+		$sort_order = array();
+
+		foreach ($json as $key => $value) {
+			$sort_order[$key] = $value['name'];
+		}
+
+		array_multisort($sort_order, SORT_ASC, $json);
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
 	}
 
 	public function uninstall() {
-		
-		$this->load->model('user/user_activity');
-
 		return $this->model_user_user_activity->uninstall();
-
 	}
-
-
 }
