@@ -84,7 +84,7 @@
   </div>
   <script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
-  url = 'index.php?route=report/user_activity&token=<?php echo $token; ?>';
+  url = 'index.php?route=user/user_activity&token=<?php echo $token; ?>';
 
   var filter_user = $('input[name=\'filter_user\']').val();
 
@@ -122,7 +122,7 @@ $('.date').datetimepicker({
 $('input[name=\'filter_user\']').autocomplete({
   'source': function(request, response) {
     $.ajax({
-      url: 'index.php?route=user/user/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
+      url: 'index.php?route=user/user_activity/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
       dataType: 'json',
       success: function(json) {
         response($.map(json, function(item) {
